@@ -8,7 +8,7 @@ public class Player : Singleton<Player>, IKitchenObjectParent
     public event EventHandler<OnSelectedCounterChangedEventArgs> OnSelectedCounterChanged;
     public class OnSelectedCounterChangedEventArgs : EventArgs
     {
-        public ClearCounter selectedCounter;
+        public BaseCounter selectedCounter;
     }
 
     [SerializeField] private float moveSpeed = 7f;
@@ -18,7 +18,7 @@ public class Player : Singleton<Player>, IKitchenObjectParent
 
     private bool isWalking;
     private Vector3 lastInteractDirection;
-    private ClearCounter selectedCounter;
+    private BaseCounter selectedCounter;
     private KitchenObject kitchenObject;
 
     private void Start()
@@ -59,12 +59,12 @@ public class Player : Singleton<Player>, IKitchenObjectParent
         float interactDistance = 2f;
         if (Physics.Raycast(transform.position, lastInteractDirection, out RaycastHit raycastHit, interactDistance, countersLayerMask))
         {
-            if (raycastHit.transform.TryGetComponent(out ClearCounter clearCounter))
+            if (raycastHit.transform.TryGetComponent(out BaseCounter baseCounter))
             {
                 // Has clear counter
-                if (clearCounter != selectedCounter)
+                if (baseCounter != selectedCounter)
                 {
-                    SetSelectedCounter(clearCounter);
+                    SetSelectedCounter(baseCounter);
                 }
             }
             else
@@ -138,7 +138,7 @@ public class Player : Singleton<Player>, IKitchenObjectParent
     /// Sets the selectedCounter field of the created OnSelectedCounterChangedEventArgs class to the current selectedCounter of this class
     /// </summary>
     /// <param name="selectedCounter">Current selected counter</param>
-    private void SetSelectedCounter(ClearCounter selectedCounter)
+    private void SetSelectedCounter(BaseCounter selectedCounter)
     {        
         this.selectedCounter = selectedCounter;
 
