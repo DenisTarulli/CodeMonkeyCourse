@@ -6,7 +6,7 @@ public class KitchenObject : MonoBehaviour
 {
     [SerializeField] private KitchenObjectSO kitchenObjectSO;
 
-    private ClearCounter clearCounter;
+    private IKitchenObjectParent kitchenObjectParent;
 
     public KitchenObjectSO GetKitchenObjectSO()
     {
@@ -14,35 +14,35 @@ public class KitchenObject : MonoBehaviour
     }
 
     /// <summary>
-    /// Sets the new clear counter for the kitchenObject and clears the previous one
+    /// Sets the new parent for the kitchenObject and clears the previous one
     /// </summary>
-    /// <param name="clearCounter">New clear counter</param>
-    public void SetClearCounter(ClearCounter clearCounter)
+    /// <param name="kitchenObjectParent">New parent</param>
+    public void SetKitchenObjectParent(IKitchenObjectParent kitchenObjectParent)
     {
-        if (this.clearCounter != null)
+        if (this.kitchenObjectParent != null)
         {
-            // Clears the kitchen object field of the previous clear counter (sets it to null)
-            this.clearCounter.ClearKitchenObject();
+            // Clears the kitchen object field of the previous parent (sets it to null)
+            this.kitchenObjectParent.ClearKitchenObject();
         }
 
-        // Sets the new clear counter of this kitchen object
-        this.clearCounter = clearCounter;
+        // Sets the new parent of this kitchen object
+        this.kitchenObjectParent = kitchenObjectParent;
 
-        if (clearCounter.HasKitchenObject())
+        if (kitchenObjectParent.HasKitchenObject())
         {
-            Debug.LogError("Counter already has a KitchenObject!");
+            Debug.LogError("IKitchenObjectParent already has a KitchenObject!");
         }
 
-        // Asigns this kitchen object to the field "kitchenObject" of the new clear counter
-        clearCounter.SetKitchenObject(this);
+        // Asigns this kitchen object to the field "kitchenObject" of the new parent
+        kitchenObjectParent.SetKitchenObject(this);
 
-        // Moves the visual to the new clear counter parent
-        transform.parent = clearCounter.GetKitchenObjectFollowTransform();
+        // Moves the visual to the new parent
+        transform.parent = kitchenObjectParent.GetKitchenObjectFollowTransform();
         transform.localPosition = Vector3.zero;
     }
 
-    public ClearCounter GetclearCounter()
+    public IKitchenObjectParent GetKitchenObjectParent()
     {
-        return clearCounter;
+        return kitchenObjectParent;
     }
 }
