@@ -17,7 +17,11 @@ public class PlatesCounter : BaseCounter
 
     private void Update()
     {
-        spawnPlateTimer += Time.deltaTime;
+        if (platesSpawnedAmount != platesSpawnedAmountMax)
+        {
+            // The timer only runs if the amount of plates is not the maximum
+            spawnPlateTimer += Time.deltaTime;
+        }
 
         if (spawnPlateTimer >= spawnPlateTimerMax)
         {
