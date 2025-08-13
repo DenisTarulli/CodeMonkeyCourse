@@ -65,7 +65,7 @@ public class CuttingCounter : BaseCounter, IHasProgress
 
     public override void InteractAlternate(Player player)
     {
-        if (HasKitchenObject() && HasRecipeWithInput(GetKitchenObject().GetKitchenObjectSO()))
+        if (HasKitchenObject() && HasRecipeWithInput(GetKitchenObject().GetKitchenObjectSO()) && !player.HasKitchenObject()) // Added last conditional
         {
             // There is a kitchenObject here AND it can be cut
             cuttingProgress++;
