@@ -104,7 +104,7 @@ public class Player : Singleton<Player>, IKitchenObjectParent
             // Cannot move towards moveDir
 
             // Attempt only X movement
-            Vector3 moveDirX = new Vector3(moveDir.x, 0f, 0f).normalized;
+            Vector3 moveDirX = new(moveDir.x, 0f, 0f);
 
             canMove = moveDir.x != 0 && !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveDirX, moveDistance);
 
@@ -118,7 +118,7 @@ public class Player : Singleton<Player>, IKitchenObjectParent
                 // Cannot move only on the X
 
                 // Attempt only Z movement
-                Vector3 moveDirZ = new Vector3(0f, 0f, moveDir.z).normalized;
+                Vector3 moveDirZ = new(0f, 0f, moveDir.z);
                 canMove = moveDir.z != 0 && !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveDirZ, moveDistance);
 
                 if (canMove)
