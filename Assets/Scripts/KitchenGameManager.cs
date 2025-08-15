@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class KitchenGameManager : Singleton<KitchenGameManager>
@@ -58,7 +56,6 @@ public class KitchenGameManager : Singleton<KitchenGameManager>
             case State.GameOver:
                 break;
         }
-        Debug.Log(state);
     }
 
     public bool IsGamePlaying()
