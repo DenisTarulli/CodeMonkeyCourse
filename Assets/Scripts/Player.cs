@@ -1,8 +1,11 @@
 using System;
+using Unity.Netcode;
 using UnityEngine;
 
-public class Player : Singleton<Player>, IKitchenObjectParent
+public class Player : NetworkBehaviour, IKitchenObjectParent
 {
+    //public static Player Instance { get; private set; }
+
     public event EventHandler OnPickedSomething;
     public event EventHandler<OnSelectedCounterChangedEventArgs> OnSelectedCounterChanged;
     public class OnSelectedCounterChangedEventArgs : EventArgs
@@ -11,7 +14,6 @@ public class Player : Singleton<Player>, IKitchenObjectParent
     }
 
     [SerializeField] private float moveSpeed = 7f;
-    [SerializeField] private GameInput gameInput;
     [SerializeField] private LayerMask countersLayerMask;
     [SerializeField] private Transform kitchenObjectHoldPoint;
 
@@ -20,10 +22,15 @@ public class Player : Singleton<Player>, IKitchenObjectParent
     private BaseCounter selectedCounter;
     private KitchenObject kitchenObject;
 
+    private void Awake()
+    {
+        //Instance = this;
+    }
+
     private void Start()
     {
-        gameInput.OnInteractAction += GameInput_OnInteractAction;
-        gameInput.OnInteractAlternateAction += GameInput_OnInteractAlternateAction; ;
+        GameInput.Instance.OnInteractAction += GameInput_OnInteractAction;
+        GameInput.Instance.OnInteractAlternateAction += GameInput_OnInteractAlternateAction; ;
     }    
 
     private void Update()
@@ -56,7 +63,7 @@ public class Player : Singleton<Player>, IKitchenObjectParent
 
     private void HandleInteractions()
     {
-        Vector2 inputVector = gameInput.GetMovementVectorNormalized();
+        Vector2 inputVector = GameInput.Instance.GetMovementVectorNormalized();
 
         Vector3 moveDir = new(inputVector.x, 0f, inputVector.y);
 
@@ -89,7 +96,7 @@ public class Player : Singleton<Player>, IKitchenObjectParent
 
     private void HandleMovement()
     {
-        Vector2 inputVector = gameInput.GetMovementVectorNormalized();
+        Vector2 inputVector = GameInput.Instance.GetMovementVectorNormalized();
 
         Vector3 moveDir = new(inputVector.x, 0f, inputVector.y);
 
@@ -140,7 +147,11 @@ public class Player : Singleton<Player>, IKitchenObjectParent
         isWalking = moveDir != Vector3.zero;
 
         float rotateSpeed = 10f;
-        transform.forward = Vector3.Slerp(transform.forward, moveDir, Time.deltaTime * rotateSpeed);
+
+        if (isWalking)
+        {
+            transform.forward = Vector3.Slerp(transform.forward, moveDir, Time.deltaTime * rotateSpeed);
+        }
     }
 
     /// <summary>

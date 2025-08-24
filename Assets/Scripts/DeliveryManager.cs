@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DeliveryManager : Singleton<DeliveryManager>
+public class DeliveryManager : MonoBehaviour
 {
+    public static DeliveryManager Instance { get; private set; }
+
     public event EventHandler OnRecipeSpawned;
     public event EventHandler OnRecipeCompleted;
     public event EventHandler OnRecipeSuccess;
@@ -19,6 +21,8 @@ public class DeliveryManager : Singleton<DeliveryManager>
 
     private void Awake()
     {
+        Instance = this;
+
         waitingRecipeSOList = new List<RecipeSO>();
     }
 

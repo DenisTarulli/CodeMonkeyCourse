@@ -1,8 +1,10 @@
 using System;
 using UnityEngine;
 
-public class KitchenGameManager : Singleton<KitchenGameManager>
+public class KitchenGameManager : MonoBehaviour
 {
+    public static KitchenGameManager Instance { get; private set; }
+
     public event EventHandler OnStateChanged;
     public event EventHandler OnGamePaused;
     public event EventHandler OnGameUnpaused;
@@ -16,13 +18,15 @@ public class KitchenGameManager : Singleton<KitchenGameManager>
     }
 
     private State state;
-    private float countdownToStartTimer = 3f;
+    private float countdownToStartTimer = 1f;
     private float gamePlayingTimer;
-    private float gamePlayingTimerMax = 50f;
+    private float gamePlayingTimerMax = 360f;
     private bool isGamePaused = false;
 
     private void Awake()
     {
+        Instance = this;
+
         state = State.WaitingToStart;
     }
 
@@ -30,6 +34,10 @@ public class KitchenGameManager : Singleton<KitchenGameManager>
     {
         GameInput.Instance.OnPauseAction += GameInput_OnPauseAction;
         GameInput.Instance.OnInteractAction += GameInput_OnInteractAction;
+
+        // DEBUG TRIGGER GAME TO START AUTOMATICALLY
+        state = State.CountdownToStart;
+        OnStateChanged?.Invoke(this, EventArgs.Empty);
     }
 
     private void GameInput_OnInteractAction(object sender, EventArgs e)
