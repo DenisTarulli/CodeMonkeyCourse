@@ -6,6 +6,12 @@ public class KitchenObject : NetworkBehaviour
     [SerializeField] private KitchenObjectSO kitchenObjectSO;
 
     private IKitchenObjectParent kitchenObjectParent;
+    private FollowTransform followTransform;
+
+    protected virtual void Awake()
+    {
+        followTransform = GetComponent<FollowTransform>();
+    }
 
     public KitchenObjectSO GetKitchenObjectSO()
     {
@@ -18,11 +24,23 @@ public class KitchenObject : NetworkBehaviour
     /// <param name="kitchenObjectParent">New parent</param>
     public void SetKitchenObjectParent(IKitchenObjectParent kitchenObjectParent)
     {
-        if (this.kitchenObjectParent != null)
-        {
-            // Clears the kitchen object field of the previous parent (sets it to null)
-            this.kitchenObjectParent.ClearKitchenObject();
-        }
+        SetKitchenObjectParentServerRpc(kitchenObjectParent.GetNetworkObject());
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void SetKitchenObjectParentServerRpc(NetworkObjectReference kitchenObjectParentNetworkObjectReference)
+    {
+        SetKitchenObjectParentClientRpc(kitchenObjectParentNetworkObjectReference);
+    }
+
+    [ClientRpc]
+    private void SetKitchenObjectParentClientRpc(NetworkObjectReference kitchenObjectParentNetworkObjectReference)
+    {
+        kitchenObjectParentNetworkObjectReference.TryGet(out NetworkObject kitchenObjectParentNetworkObject);
+        IKitchenObjectParent kitchenObjectParent = kitchenObjectParentNetworkObject.GetComponent<IKitchenObjectParent>();
+
+        // Clears the kitchen object field of the previous parent (sets it to null)
+        this.kitchenObjectParent?.ClearKitchenObject();
 
         // Sets the new parent of this kitchen object
         this.kitchenObjectParent = kitchenObjectParent;
@@ -35,9 +53,7 @@ public class KitchenObject : NetworkBehaviour
         // Asigns this kitchen object to the field "kitchenObject" of the new parent
         kitchenObjectParent.SetKitchenObject(this);
 
-        // Moves the visual to the new parent
-        //transform.parent = kitchenObjectParent.GetKitchenObjectFollowTransform();
-        //transform.localPosition = Vector3.zero;
+        followTransform.SetTargetTransform(kitchenObjectParent.GetKitchenObjectFollowTransform());
     }
 
     public IKitchenObjectParent GetKitchenObjectParent()
