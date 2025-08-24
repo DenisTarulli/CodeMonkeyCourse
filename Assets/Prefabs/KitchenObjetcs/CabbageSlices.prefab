@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2224857157176746978}
   - component: {fileID: -1775208738924710041}
-  - component: {fileID: -3231478407645469142}
   - component: {fileID: 2149787279476469055}
+  - component: {fileID: -4032009011467097413}
   m_Layer: 0
   m_Name: CabbageSlices
   m_TagString: Untagged
@@ -48,7 +48,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   kitchenObjectSO: {fileID: 11400000, guid: 6ada24e68b2c8d34690a1154474fa2bf, type: 2}
---- !u!114 &-3231478407645469142
+--- !u!114 &2149787279476469055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5462509880168795075}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5e20b7f0df39004388e3495a60a028e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-4032009011467097413
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -64,18 +76,6 @@ MonoBehaviour:
   AlwaysReplicateAsRoot: 0
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
---- !u!114 &2149787279476469055
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5462509880168795075}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5e20b7f0df39004388e3495a60a028e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &8949356909841302539
 PrefabInstance:
   m_ObjectHideFlags: 0
