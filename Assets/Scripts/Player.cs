@@ -43,7 +43,7 @@ public class Player : NetworkBehaviour, IKitchenObjectParent
     private void Start()
     {
         GameInput.Instance.OnInteractAction += GameInput_OnInteractAction;
-        GameInput.Instance.OnInteractAlternateAction += GameInput_OnInteractAlternateAction; ;
+        GameInput.Instance.OnInteractAlternateAction += GameInput_OnInteractAlternateAction;
     }    
 
     private void Update()
